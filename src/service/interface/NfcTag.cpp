@@ -691,15 +691,6 @@ void NfcTag::createNativeNfcTag (tNFA_ACTIVATED& activationData)
     NXPLOG_API_D ("%s: enter", "NfcTag::createNativeNfcTag");
 
     nfc_tag_info_t tag;
-    printf("ATTRIB LEN: %u ATTRIB: \n", (unsigned int)activationData.activate_ntf.rf_tech_param.param.pb.sensb_res_len);
-    for(int i = 0; i< activationData.activate_ntf.rf_tech_param.param.pb.sensb_res_len; i++){
-        printf("%x (%d)\n", activationData.activate_ntf.rf_tech_param.param.pb.sensb_res[i], i);
-    }
-
-    printf("HR LEN: %u HR: \n", (unsigned int)activationData.activate_ntf.rf_tech_param.param.pa.hr_len);
-    for(int i = 0; i< activationData.activate_ntf.rf_tech_param.param.pa.hr_len; i++){
-        printf("%x (%d)\n", activationData.activate_ntf.rf_tech_param.param.pa.hr[i], i);
-    }
 
     NXPLOG_API_D ("%s: Selected: index=%d; tech=%d; handle=%d; nfc type=%x",
                   __FUNCTION__, mActivationIndex, mTechList[mActivationIndex],
@@ -709,9 +700,14 @@ void NfcTag::createNativeNfcTag (tNFA_ACTIVATED& activationData)
     tag.technology = mTechList [mActivationIndex];
     tag.handle = mTechHandles[mActivationIndex];
     tag.protocol = mTechLibNfcTypes[mActivationIndex];
-    memcpy(tag.add_data, activationData.activate_ntf.rf_tech_param.param.pb.sensb_res, activationData.activate_ntf.rf_tech_param.param.pb.sensb_res_len);
+    if(tag.technology == 1){
+        memcpy(tag.add_data, activationData.activate_ntf.rf_tech_param.param.pa.sens_res, 2);
+        memcpy(&tag.add_data[2], activationData.activate_ntf.rf_tech_param.param.pa.sens_res, 1);
+    }else if(tag.technology == 2){
+        memcpy(tag.add_data, activationData.activate_ntf.rf_tech_param.param.pb.sensb_res, activationData.activate_ntf.rf_tech_param.param.pb.sensb_res_len);
+    }
 #else
-
+    
     //tag.technology = activationData.activate_ntf.
     tag.handle = activationData.activate_ntf.rf_disc_id;
     tag.protocol = activationData.activate_ntf.protocol;
