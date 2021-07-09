@@ -188,7 +188,10 @@ typedef struct
      *  \brief activated protocol
      */
     tNFC_PROTOCOL protocol;
-
+    /**
+     *  \brief Additional Data
+     */
+    unsigned char add_data[32];
 }nfc_tag_info_t;
 
 /**
