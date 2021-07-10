@@ -702,7 +702,7 @@ void NfcTag::createNativeNfcTag (tNFA_ACTIVATED& activationData)
     tag.protocol = mTechLibNfcTypes[mActivationIndex];
     if(tag.technology == 1){
         memcpy(tag.add_data, activationData.activate_ntf.rf_tech_param.param.pa.sens_res, 2);
-        memcpy(&tag.add_data[2], activationData.activate_ntf.rf_tech_param.param.pa.sens_res, 1);
+        memcpy(&tag.add_data[2], activationData.activate_ntf.rf_tech_param.param.pa.sel_rsp, 1);
     }else if(tag.technology == 2){
         memcpy(tag.add_data, activationData.activate_ntf.rf_tech_param.param.pb.sensb_res, activationData.activate_ntf.rf_tech_param.param.pb.sensb_res_len);
     }
