@@ -1,5 +1,5 @@
 # linux_libnfc-nci
-This is a fork of the official NXP Linux NFC Stack (https://github.com/NXPNFCLinux/linux_libnfc-nci)
+This is a fork of the official NXP Linux NFC Stack (https://github.com/NXPNFCLinux/linux_libnfc-nci)  
 Modifications made are
 1. Ability to set the library configuration programmatically 
 2. Ability to retrive tag ATQA/B response data
